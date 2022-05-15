@@ -1,64 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <signal.h>
-#include <string.h>
-
 #include "sheet.h"
 
-#define DEBUG false
-
-int main(int argc, char * argv[]) {
-
-	Sheet* sheet;
-	if (argc > 1) {
-		sheet = openSheet("test.char");
-	} else {
-		sheet = makeDefaultSheet();
-	}
-
-	if (!DEBUG) {
-		init();
-		populateWindows(sheet);
-	}
-
-
-
-
-	drawSheet(sheet);
-	//saveSheet(sheet, "test1.char");
-	if (DEBUG) {return 1;}
-
-	while (true) {
-	}
-
-
-
-}
-
-// Init and finish functions
-static void init() {
-	(void) signal(SIGINT, finish);      /* arrange interrupts to terminate */
-
-	(void) initscr();      /* initialize the curses library */
-	keypad(stdscr, TRUE);  /* enable keyboard mapping */
-	(void) nonl();         /* tell curses not to do NL->CR/NL on output */
-	(void) cbreak();       /* take input chars one at a time, no wait for \n */
-	(void) echo();         /* echo input - in color */
-
-	if (has_colors())
-	{
-		start_color();
-	}
-	(void) curs_set(0);
-}
-
-static void finish(int sig) {
-	endwin();
-	int MAIN_X;
-	int MAIN_Y;
-	printf("X: %d, Y: %d\n", MAIN_X,MAIN_Y);
-	exit(0);
-};
 
 Sheet * makeDefaultSheet(){
 	Sheet* newsheet = malloc(sizeof(Sheet));
@@ -296,10 +237,12 @@ void drawAttributesBox(AttributesBox * a){
 		int y = 1 + i*4;
 		mvwprintw(window,y,1,"-------");
 		wattron(window,A_BOLD);
+		if (state->SelectedBox == ATTRIBUTES && state->SelectedItem == i) {wattron(window, A_BLINK);}
 		char * flag = (char*) a->proficiencies[i] ? "*" : " ";
-		mvwprintw(window,y+1,1,"%s%s ",flag,ATTRIBUTE_NAMES[i]);
+		mvwprintw(window,y+1,1,"%s%s    ",flag,ATTRIBUTE_NAMES[i]);
 		wattroff(window,A_BOLD);
 		mvwprintw(window,y+2,1," %d(%+d) ", a->attributevalues[i], getBonus(a->attributevalues[i]));
+		if (state->SelectedBox == ATTRIBUTES && state->SelectedItem == i) {wattroff(window, A_BLINK);}
 		mvwprintw(window,y+3,1,"-------");
 
 
