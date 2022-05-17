@@ -17,18 +17,14 @@ int main(int argc, char * argv[]) {
 		populateWindows(sheet);
 	}
 
-	state = malloc(sizeof(SelectionState));
-	state->SelectedBox = ATTRIBUTES;
-	state->SelectedItem = 0;
-
-
-
+	state = getNewState();
 
 	drawSheet(sheet);
 	//saveSheet(sheet, "test1.char");
 	if (DEBUG) {return 1;}
 
 	while (true) {
+		processInput(sheet,state);
 	}
 
 
@@ -54,9 +50,6 @@ static void init() {
 
 static void finish(int sig) {
 	endwin();
-	int MAIN_X;
-	int MAIN_Y;
-	//printf("X: %d, Y: %d\n", MAIN_X,MAIN_Y);
 	exit(0);
 };
 

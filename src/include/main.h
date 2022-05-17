@@ -5,6 +5,8 @@
 
 #include "options.h"
 #include "sheet.h"
+#include "selectionstate.h"
+
 
 extern SelectionState* state;
 

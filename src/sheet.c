@@ -1,4 +1,5 @@
 #include "sheet.h"
+#include "selectionstate.h"
 
 
 Sheet * makeDefaultSheet(){
@@ -209,7 +210,7 @@ void drawCharacterBox(CharacterBox* c){
 	wprintw(window,"%d",c->gold);
 
 	int namelen = strlen(c->name);
-	char buff[STR_SIZE];
+	char buff[2* STR_SIZE];
 	sprintf(buff,"LVL %d %s", getLVL(c->exp), c->classname);
 
 	// choose if to align on center or right

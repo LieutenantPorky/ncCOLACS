@@ -66,14 +66,4 @@ void drawWeaponsBox(WeaponsBox*, Sheet*);
 void populateWindows(Sheet*);
 void drawBorders(WINDOW *);
 
-typedef struct {
-	int SelectedBox;
-	int SelectedItem;
-} SelectionState;
-extern SelectionState* state;
-
-enum Boxes {
-	CHARACTER,
-	ATTRIBUTES,
-	WEAPONS};
 #endif

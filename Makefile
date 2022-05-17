@@ -23,7 +23,7 @@ all: $(TARGET)
 $(TARGET): $(OBJ)
 	$(CC) -o $(TARGET) $(OBJ) $(LFLAGS)
 
-#compile objects from src/*.o -> obj/*.o
+#compile objects from src/*.c -> obj/*.o
 $(OBJ): $(ODIR)/%.o : $(SDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 	@echo "Compiled " $<
