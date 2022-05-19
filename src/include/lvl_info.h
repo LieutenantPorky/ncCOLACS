@@ -1,9 +1,6 @@
 #ifndef LVL_INFO
 #define LVL_INFO
-
-#ifndef STR_SIZE
-#define STR_SIZE 64
-#endif
+#include "options.h"
 
 #ifndef NUM_ATTRIBUTES
 #define NUM_ATTRIBUTES 6

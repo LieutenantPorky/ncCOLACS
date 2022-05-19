@@ -2,7 +2,7 @@
 #define SELECTION_STATE
 
 #include "sheet.h"
-#include "curses.h"
+#include "weapons.h"
 
 enum Boxes {
 	CHARACTER,
@@ -10,7 +10,7 @@ enum Boxes {
 	WEAPONS};
 
 
-typedef struct {
+typedef struct SelectionState{
 	enum Boxes SelectedBox;
 	int SelectedItem;
 } SelectionState;
@@ -19,8 +19,8 @@ extern SelectionState* state;
 SelectionState* getNewState();
 void processInput(Sheet*, SelectionState*);
 
-void execInputWEAPONS(int,SelectionState*);
-void execInputATTRIBUTES(int,SelectionState*);
-void execInputCHARACTER(int,SelectionState*);
+void execInputWEAPONS(int,SelectionState*,Sheet*);
+void execInputATTRIBUTES(int,SelectionState*,Sheet*);
+void execInputCHARACTER(int,SelectionState*,Sheet*);
 
 #endif

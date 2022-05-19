@@ -19,7 +19,6 @@ int main(int argc, char * argv[]) {
 
 	state = getNewState();
 
-	drawSheet(sheet);
 	//saveSheet(sheet, "test1.char");
 	if (DEBUG) {return 1;}
 
@@ -39,7 +38,7 @@ static void init() {
 	keypad(stdscr, TRUE);  /* enable keyboard mapping */
 	(void) nonl();         /* tell curses not to do NL->CR/NL on output */
 	(void) cbreak();       /* take input chars one at a time, no wait for \n */
-	(void) echo();         /* echo input - in color */
+	(void) noecho();         /* echo input - in color */
 
 	if (has_colors())
 	{

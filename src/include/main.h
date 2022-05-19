@@ -6,6 +6,7 @@
 #include "options.h"
 #include "sheet.h"
 #include "selectionstate.h"
+#include "savesheet.h"
 
 
 extern SelectionState* state;

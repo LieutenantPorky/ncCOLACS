@@ -10,30 +10,30 @@ SelectionState* getNewState() {
 
 void processInput(Sheet* sheet, SelectionState* state){
 
+	drawSheet(sheet);
 	int ch = wgetch(stdscr);
 
 	switch(state->SelectedBox){
 		case ATTRIBUTES:
-			execInputATTRIBUTES(ch,state);
+			execInputATTRIBUTES(ch,state,sheet);
 			break;
 		
 		case CHARACTER:
-			execInputCHARACTER(ch,state);
+			execInputCHARACTER(ch,state,sheet);
 			break;
 
 		case WEAPONS:
-			execInputWEAPONS(ch,state);
+			execInputWEAPONS(ch,state,sheet);
 			break;
 	}
 
 	drawSheet(sheet);
-
 	mvprintw(40,40,"item: %d box: %d",state->SelectedItem, state->SelectedBox);
 
 
 }
 
-void execInputATTRIBUTES(int ch, SelectionState* state) {
+void execInputATTRIBUTES(int ch, SelectionState* state, Sheet* sheet) {
 	switch (ch){
 		case KEY_DOWN:
 			state->SelectedItem = (state->SelectedItem +1) % NUM_ATTRIBUTES;
@@ -44,17 +44,42 @@ void execInputATTRIBUTES(int ch, SelectionState* state) {
 		case KEY_UP:
 			state->SelectedItem = (state->SelectedItem -1 + NUM_ATTRIBUTES) % NUM_ATTRIBUTES;
 			break;
+
+		case KEY_RIGHT:
+			state->SelectedBox = WEAPONS;
+			state->SelectedItem = 0;
+			break;
 	}
 
 }
 
 
-void execInputCHARACTER(int ch, SelectionState* state) {
+void execInputWEAPONS(int ch, SelectionState* state, Sheet* sheet) {
+	switch (ch){
+		case KEY_DOWN:
+			state->SelectedItem = (state->SelectedItem +1) % sheet->weaponsbox->numweapons;
+			break;
+			
+
+
+		case KEY_UP:
+			state->SelectedItem = (state->SelectedItem -1 + sheet->weaponsbox->numweapons) % sheet->weaponsbox->numweapons;
+			break;
+
+		case KEY_LEFT:
+			state->SelectedBox = ATTRIBUTES;
+			state->SelectedItem = 0;
+			break;
+
+		case 'r':
+			rollAttack(state, sheet);
+			break;
+	}
 
 }
 
 
-void execInputWEAPONS(int ch, SelectionState* state) {
+void execInputCHARACTER(int ch, SelectionState* state, Sheet* sheet) {
 
 }
 
