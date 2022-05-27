@@ -32,7 +32,7 @@ static const int LVLINFO[20][3] = {
 
 static int getLVL(int exp) {
 	for (int i = 1; i < 19; i++) {
-		if (exp < LVLINFO[i][0]) { return i-1;}
+		if (exp < LVLINFO[i][0]) { return i;}
 	}
 	return 20;
 }

@@ -1,4 +1,5 @@
 #include "savesheet.h"
+#include "curses.h"
 
 Sheet * makeDefaultSheet(){
 	Sheet* newsheet = malloc(sizeof(Sheet));
@@ -30,9 +31,23 @@ Sheet * makeDefaultSheet(){
 	memcpy(attributesbox->attributevalues,def_att,sizeof(def_att));
 	memcpy(attributesbox->proficiencies,def_prof,sizeof(def_prof));
 
+
+
+	//Make the status box
+	
+	StatusBox* statusbox = malloc(sizeof(AttributesBox));
+	statusbox->maxHP = 10;
+	statusbox->currentHP = 10;
+	statusbox->bonusHP = 0;
+	statusbox->hitdie = 8;
+	statusbox->numhitdice = 1;
+	statusbox->AC = 15;
+	statusbox->initiative=0;
+	
 	newsheet->attributesbox = attributesbox;
 	newsheet->characterbox = characterbox;
 	newsheet->weaponsbox = weaponsbox;
+	newsheet->statusbox = statusbox;
 
 	return newsheet;
 };
@@ -43,6 +58,16 @@ void saveSheet(Sheet* s, char* filename){
 	CharacterBox* c = s->characterbox;
 	fprintf(f,"%s,%s,%d,%d\n", c->name,c->classname,c->exp,c->gold);
 
+	StatusBox* st = s->statusbox;
+	fprintf(f,"%d,%d,%d,%d,%d,%d,%d\n",
+	st->maxHP,
+	st->currentHP,
+	st->bonusHP,
+	st->hitdie,
+	st->numhitdice,
+	st->AC,
+	st->initiative);
+
 	AttributesBox* a = s->attributesbox;
 	for (int i =0; i<NUM_ATTRIBUTES; i++){
 		fprintf(f,"%d,",a->attributevalues[i]);
@@ -52,6 +77,7 @@ void saveSheet(Sheet* s, char* filename){
 		fprintf(f,"%d,",a->proficiencies[i]);
 	}
 	fprintf(f,"\n");
+
 
 	WeaponsBox* w = s->weaponsbox;
 	Weapon *cw;
@@ -80,6 +106,19 @@ Sheet* openSheet(char* filename) {
 	strcpy(characterbox->classname,classname);
 	characterbox->exp = exp;
 	characterbox->gold = gold;
+
+
+	//Make the status box
+	StatusBox* st = malloc(sizeof(StatusBox));
+	fscanf(f,"%d,%d,%d,%d,%d,%d,%d\n",
+	&st->maxHP,
+	&st->currentHP,
+	&st->bonusHP,
+	&st->hitdie,
+	&st->numhitdice,
+	&st->AC,
+	&st->initiative);
+
 
 	//Make the attributes box
 
@@ -140,9 +179,37 @@ Sheet* openSheet(char* filename) {
 
 
 	newsheet->attributesbox = attributesbox;
+	newsheet->statusbox = st;
 	newsheet->characterbox = characterbox;
 	newsheet->weaponsbox = weaponsbox;
 
 	fclose(f);
 	return newsheet;
+}
+
+void saveSheetDiag(Sheet* sheet) {
+	int mx, my;
+
+	getmaxyx(stdscr, my,mx);
+
+	WINDOW* win = newwin(4,20,my/2-2,mx/2-10);
+	drawBorders(win);
+
+	char filename[STR_SIZE];
+	mvwprintw(win,1,1,"Save Sheet");
+	mvwprintw(win,2,1,"Name: ");
+
+	wrefresh(win);
+	
+	nocbreak();
+	echo();
+	wgetstr(win,filename);
+
+	cbreak();
+	noecho();
+
+	werase(win);
+	wrefresh(win);
+	saveSheet(sheet, filename);
+
 }

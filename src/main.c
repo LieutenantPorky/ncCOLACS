@@ -7,7 +7,7 @@ int main(int argc, char * argv[]) {
 
 	Sheet* sheet;
 	if (argc > 1) {
-		sheet = openSheet("test.char");
+		sheet = openSheet(argv[1]);
 	} else {
 		sheet = makeDefaultSheet();
 	}
