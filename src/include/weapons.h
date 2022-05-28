@@ -7,6 +7,14 @@
 typedef struct SelectionState SelectionState;
 typedef struct Sheet Sheet;
 
+enum ATTACK_STATUS{
+	NORMAL,
+	ADVANTAGE,
+	DISADVANTAGE,
+	CRIT
+
+};
+
 typedef struct{
 	char name[STR_SIZE];
 	int attr;
@@ -23,7 +31,9 @@ typedef struct {
 
 void addWeapon(WeaponsBox*, Weapon*);
 void drawWeaponsBox(WeaponsBox*, Sheet*);
-void rollAttack(SelectionState*, Sheet*);
+void rollAttack(SelectionState*, Sheet*, enum ATTACK_STATUS);
+
+
 
 
 #endif

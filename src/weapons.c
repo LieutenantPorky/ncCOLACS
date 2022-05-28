@@ -33,7 +33,6 @@ void drawWeaponsBox(WeaponsBox* w, Sheet* s) {
 		wattron(window, A_BOLD);
 		mvwprintw(window,1+2*i,name_len+2,"| %dD%d + %d |",wp->numdice,wp->die, 
 			getBonus(s->attributesbox->attributevalues[wp->attr]));
-		//mvwprintw(window,1+2*i,20,"%s",w->attribute->title);
 		wattroff(window,A_BOLD);
 	}
 
@@ -48,7 +47,7 @@ void addWeapon(WeaponsBox* wb, Weapon* w){
 }
 
 
-void rollAttack(SelectionState* state, Sheet* sheet) {
+void rollAttack(SelectionState* state, Sheet* sheet,enum ATTACK_STATUS advantage) {
 	
 	// Calculate hit and damage rolls first
 	int hit;
@@ -58,7 +57,20 @@ void rollAttack(SelectionState* state, Sheet* sheet) {
 	int att = getBonus(sheet->attributesbox->attributevalues[wp->attr]);
 	
 	int roll = 1+ (rand() % 20);
+
+	if (advantage != NORMAL) {
+
+		int newroll = 1+ (rand() % 20);
+
+		if (advantage == DISADVANTAGE){
+			roll = (roll < newroll) ? roll : newroll;
+		}
+		else {
+			roll = (roll > newroll) ? roll : newroll;
+		}
+	}
 	hit = roll + att + getProficiency(sheet->characterbox->exp);
+
 
 	for (int i=0; i< wp->numdice;i++){
 		damage += 1+(rand() % wp->die);
@@ -75,7 +87,7 @@ void rollAttack(SelectionState* state, Sheet* sheet) {
 	WINDOW* win = newwin(4,10,my/2-2,mx/2-5);
 
 	// notify if a critical hit has happened
-	if (roll ==20) {
+	if (roll ==20 || advantage == CRIT) {
 		wattron(win, A_BOLD);
 		drawBorders(win);
 		mvwprintw(win,1,1,"CRITICAL");
@@ -98,6 +110,10 @@ void rollAttack(SelectionState* state, Sheet* sheet) {
 	drawBorders(win);
 	wattron(win, A_BOLD);
 	mvwprintw(win,1,1,"HIT");
+
+	if (advantage == ADVANTAGE) {mvwprintw(win,1,4,"+");}
+	if (advantage == DISADVANTAGE) {mvwprintw(win,1,4,"-");}
+
 	mvwprintw(win,1,6,"DMG");
 	wattroff(win, A_BOLD);
 	mvwprintw(win,2,1,"%d",hit);

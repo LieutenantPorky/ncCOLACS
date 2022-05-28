@@ -84,7 +84,7 @@ void saveSheet(Sheet* s, char* filename){
 	fprintf(f,"%d\n",w->numweapons);
 	for(int i=0;i<w->numweapons;i++) {
 		cw=&w->weapons[i];
-		fprintf(f,"%s,%d,%d,%d\n",cw->name,cw->numdice,cw->die,a->attributevalues[cw->attr]);
+		fprintf(f,"%s,%d,%d,%d\n",cw->name,cw->numdice,cw->die,cw->attr);
 	}
 
 	fclose(f);

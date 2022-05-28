@@ -19,6 +19,11 @@ typedef struct StatusBox{
 } StatusBox;
 
 void drawStatusBox(StatusBox*, Sheet*);
+void addBonusHPDiag(Sheet* s); 
+void healDiag(Sheet* s); 
+void resetDiag(Sheet* s); 
+void damageDiag(Sheet* s); 
+void healHDDiag(Sheet* s); 
 
 
 #endif

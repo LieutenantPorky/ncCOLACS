@@ -29,7 +29,7 @@ void evalHint(SelectionState* s) {
 
 		case WEAPONS:
 			mvwaddstr(hintwindow,1,0,
-					"s: save  r: roll weapon "
+					"s: save  r: roll weapon  a: roll with advantage  d: roll with disadvantage  c: roll crit"
 				 );
 			break;
 
@@ -40,7 +40,13 @@ void evalHint(SelectionState* s) {
 			break;
 
 		case STATUS:
-
+			mvwaddstr(hintwindow,1,0,
+					"s: save  r: long rest   h-a: heal amount  h-d: short rest heal"
+				 );
+			mvwaddstr(hintwindow,2,0,
+					"b: add bonus HP  d: add damage  i: roll initiative"
+				 );
+			break;
 	}
 
 
@@ -137,7 +143,18 @@ void execInputWEAPONS(int ch, SelectionState* state, Sheet* sheet) {
 			break;
 
 		case 'r':
-			rollAttack(state, sheet);
+			rollAttack(state, sheet, NORMAL);
+			break;
+
+		case 'a':
+			rollAttack(state, sheet, ADVANTAGE);
+			break;
+
+		case 'd':
+			rollAttack(state, sheet, DISADVANTAGE);
+			break;
+		case 'c':
+			rollAttack(state, sheet, CRIT);
 			break;
 	}
 
@@ -195,6 +212,34 @@ void execInputSTATUS(int ch, SelectionState* state, Sheet* sheet) {
 		case KEY_LEFT:
 			state->SelectedBox = ATTRIBUTES;
 			break;
+
+		case 'r':
+			resetDiag(sheet);
+			break;
+
+		case 'h':
+			int newch = wgetch(stdscr);
+			switch(newch) {
+
+				case 'a':
+					healDiag(sheet);
+					break;
+				
+				case 'd':
+					healHDDiag(sheet);
+					break;
+			}
+			break;
+
+		case 'b':
+			addBonusHPDiag(sheet);
+			break;
+
+		case 'd':
+			damageDiag(sheet);
+			break;
+
+
 	}
 
 }

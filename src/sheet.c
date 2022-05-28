@@ -51,7 +51,7 @@ void populateWindows(Sheet* s) {
 	int s_x = a_x+a_w+1;
 	int s_y = c_y+c_h+1;
 	int s_h = 8;
-	int s_w = 21;
+	int s_w = 30;
 
 	// weapons box
 	int w_x = a_x+a_w+1;
