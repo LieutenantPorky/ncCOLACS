@@ -16,6 +16,7 @@ typedef struct AttributesBox{
 } AttributesBox;
 
 void drawAttributesBox(AttributesBox*);
+void rollAttributeDiag(SelectionState*, Sheet*);
 
 
 

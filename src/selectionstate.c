@@ -23,7 +23,7 @@ void evalHint(SelectionState* s) {
 
 		case ATTRIBUTES:
 			mvwaddstr(hintwindow,1,0,
-					"s: save   "
+					"s: save  r: roll saving throw "
 				 );
 			break;
 
@@ -117,6 +117,10 @@ void execInputATTRIBUTES(int ch, SelectionState* state, Sheet* sheet) {
 				state->SelectedBox = WEAPONS;
 				state->SelectedItem = 0;
 			}
+			break;
+
+		case 'r':
+			rollAttributeDiag(state,sheet);
 			break;
 	}
 
@@ -237,6 +241,10 @@ void execInputSTATUS(int ch, SelectionState* state, Sheet* sheet) {
 
 		case 'd':
 			damageDiag(sheet);
+			break;
+
+		case 'i':
+			rollInitiativeDiag(sheet);
 			break;
 
 

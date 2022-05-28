@@ -226,3 +226,40 @@ void addBonusHPDiag(Sheet* s) {
 	}
 		
 }
+void rollInitiativeDiag(Sheet* s){
+	int att = getBonus(s->attributesbox->attributevalues[1]);
+	int roll = 1+ (rand() % 20);
+	
+	int mx, my;
+	getmaxyx(stdscr, my,mx);
+	WINDOW* win = newwin(4,16,my/2-2,mx/2-8);
+
+	if (roll ==20) {
+		wattron(win, A_BOLD);
+		drawBorders(win);
+		mvwprintw(win,1,1,"CRITICAL");
+		mvwprintw(win,2,1,"  ROLL  ");
+		wattroff(win, A_BOLD);
+
+		wgetch(win);
+		werase(win);
+		wrefresh(win);
+	}
+
+	drawBorders(win);
+	wattron(win, A_BOLD);
+	mvwprintw(win,1,1,"Initiative");
+	wattroff(win, A_BOLD);
+	mvwprintw(win,2,1,"%d",roll + att);
+
+	s->statusbox->initiative = roll + att;
+	
+	wgetch(win);
+	werase(win);
+	wrefresh(win);
+
+	
+
+
+}
+

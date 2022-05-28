@@ -24,6 +24,7 @@ void healDiag(Sheet* s);
 void resetDiag(Sheet* s); 
 void damageDiag(Sheet* s); 
 void healHDDiag(Sheet* s); 
+void rollInitiativeDiag(Sheet* s);
 
 
 #endif

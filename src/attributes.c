@@ -29,3 +29,50 @@ void drawAttributesBox(AttributesBox * a){
 
 	wrefresh(a->w);
 }
+
+void rollAttributeDiag(SelectionState* state, Sheet* sheet){
+
+	int att = getBonus(sheet->attributesbox->attributevalues[state->SelectedItem]);
+	
+	int roll = 1+ (rand() % 20);
+
+	
+	// Display the results
+	
+	int mx, my;
+
+	getmaxyx(stdscr, my,mx);
+
+	WINDOW* win = newwin(4,10,my/2-2,mx/2-5);
+
+	// notify if a critical hit has happened
+	if (roll ==20) {
+		wattron(win, A_BOLD);
+		drawBorders(win);
+		mvwprintw(win,1,1,"CRITICAL");
+		mvwprintw(win,2,1,"  HIT!  ");
+		wattroff(win, A_BOLD);
+
+		int ch = wgetch(win);
+		werase(win);
+		wrefresh(win);
+
+
+	}
+
+
+	drawBorders(win);
+	wattron(win, A_BOLD);
+	mvwprintw(win,1,1,"%s SAVE", ATTRIBUTE_NAMES[state->SelectedItem]);
+	wattroff(win, A_BOLD);
+	mvwprintw(win,2,4,"%d",roll + att);
+
+	wrefresh(win);
+
+	int ch = wgetch(win);
+	werase(win);
+	wrefresh(win);
+
+
+}
+
