@@ -12,6 +12,10 @@ int main(int argc, char * argv[]) {
 		sheet = makeDefaultSheet();
 	}
 
+	// initialise static windows
+	
+	sheet->dicebox = malloc(sizeof(DiceBox));
+
 	if (!DEBUG) {
 		init();
 		populateWindows(sheet);

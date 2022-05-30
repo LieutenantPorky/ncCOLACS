@@ -8,7 +8,8 @@ enum Boxes {
 	CHARACTER,
 	ATTRIBUTES,
 	WEAPONS,
-	STATUS};
+	STATUS,
+	DICEBOX};
 
 
 typedef struct SelectionState{
@@ -24,5 +25,6 @@ void execInputWEAPONS(int,SelectionState*,Sheet*);
 void execInputATTRIBUTES(int,SelectionState*,Sheet*);
 void execInputCHARACTER(int,SelectionState*,Sheet*);
 void execInputSTATUS(int,SelectionState*,Sheet*);
+void execInputDICE(int,SelectionState*,Sheet*);
 
 #endif

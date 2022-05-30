@@ -33,6 +33,9 @@ void drawAttributesBox(AttributesBox * a){
 void rollAttributeDiag(SelectionState* state, Sheet* sheet){
 
 	int att = getBonus(sheet->attributesbox->attributevalues[state->SelectedItem]);
+	if (sheet->attributesbox->proficiencies[state->SelectedItem]) {
+		att += getProficiency(sheet->characterbox->exp);
+	}
 	
 	int roll = 1+ (rand() % 20);
 

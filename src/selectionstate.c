@@ -47,6 +47,12 @@ void evalHint(SelectionState* s) {
 					"b: add bonus HP  d: add damage  i: roll initiative"
 				 );
 			break;
+
+		case DICEBOX:
+			mvwaddstr(hintwindow,1,0,
+					"s: save  r: roll dice "
+				 );
+			break;
 	}
 
 
@@ -79,6 +85,10 @@ void processInput(Sheet* sheet, SelectionState* state){
 
 			case STATUS:
 				execInputSTATUS(ch,state,sheet);
+				break;
+
+			case DICEBOX:
+				execInputDICE(ch,state,sheet);
 				break;
 		}
 	}
@@ -119,6 +129,7 @@ void execInputATTRIBUTES(int ch, SelectionState* state, Sheet* sheet) {
 			}
 			break;
 
+		case '\n':
 		case 'r':
 			rollAttributeDiag(state,sheet);
 			break;
@@ -145,7 +156,12 @@ void execInputWEAPONS(int ch, SelectionState* state, Sheet* sheet) {
 			state->SelectedBox = ATTRIBUTES;
 			state->SelectedItem = 0;
 			break;
+		
+		case KEY_RIGHT:
+			state->SelectedBox = DICEBOX;
+			break;
 
+		case '\n':
 		case 'r':
 			rollAttack(state, sheet, NORMAL);
 			break;
@@ -216,6 +232,10 @@ void execInputSTATUS(int ch, SelectionState* state, Sheet* sheet) {
 		case KEY_LEFT:
 			state->SelectedBox = ATTRIBUTES;
 			break;
+		
+		case KEY_RIGHT:
+			state->SelectedBox = DICEBOX;
+			break;
 
 		case 'r':
 			resetDiag(sheet);
@@ -253,6 +273,40 @@ void execInputSTATUS(int ch, SelectionState* state, Sheet* sheet) {
 }
 
 
+void execInputDICE(int ch, SelectionState* state, Sheet* sheet) {
+	switch (ch){
+		case KEY_DOWN:
+			state->SelectedItem = (state->SelectedItem +1) % NUM_DICE;
+			break;
+			
 
+
+		case KEY_UP:
+			
+			if (state->SelectedItem == 0) {state->SelectedBox = CHARACTER;}
+			else{state->SelectedItem = (state->SelectedItem -1 + NUM_DICE) % NUM_DICE;}
+			break;
+
+		case KEY_LEFT:
+			
+			if (state->SelectedItem <NUM_DICE/2){
+				state->SelectedBox = STATUS;
+				state->SelectedItem = 0;
+			}
+			else{
+				state->SelectedBox = WEAPONS;
+				state->SelectedItem = 0;
+			}
+			break;
+
+		case KEY_ENTER:
+		case '\n':
+		case 'r':
+			rollDieDiag(state,sheet);
+			break;
+	}
+
+
+}
 
 

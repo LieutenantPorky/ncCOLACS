@@ -59,12 +59,19 @@ void populateWindows(Sheet* s) {
 	int w_h = 2+ 2 * s->weaponsbox->numweapons;
 	int w_w = MAIN_X/2;
 
+	// dice box
+	int d_x = MAIN_X - 6;
+	int d_y = c_y+c_h+1;
+	int d_h = NUM_DICE * 2 +1;
+	int d_w = 6;
+
 
 
 	s->characterbox->w = newwin(c_h,c_w,c_y,c_x);
 	s->attributesbox->w = newwin(a_h,a_w,a_y,a_x);
 	s->statusbox->w = newwin(s_h,s_w,s_y,s_x);
 	s->weaponsbox->w = newwin(w_h,w_w,w_y,w_x);
+	s->dicebox->w = newwin(d_h,d_w,d_y,d_x);
 }
 
 void drawSheet(Sheet* s){
@@ -72,6 +79,7 @@ void drawSheet(Sheet* s){
 	drawAttributesBox(s->attributesbox);
 	drawStatusBox(s->statusbox,s);
 	drawWeaponsBox(s->weaponsbox,s);
+	drawDiceBox(s->dicebox);
 }
 
 

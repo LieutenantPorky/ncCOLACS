@@ -15,6 +15,7 @@
 #include "attributes.h"
 #include "character.h"
 #include "status.h"
+#include "dice.h"
 
 
 
@@ -27,6 +28,7 @@ typedef struct Sheet{
 	WeaponsBox* weaponsbox;
 	AttributesBox* attributesbox;
 	StatusBox* statusbox;
+	DiceBox* dicebox;
 } Sheet;
 
 
