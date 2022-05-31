@@ -43,6 +43,8 @@ void rollDieDiag(SelectionState* state, Sheet* s) {
 	werase(w1);
 	wrefresh(w1);
 
+	drawSheet(s);
+
 	int numdice =1;
 
 	int res = sscanf(input_str,"%d",& numdice);
