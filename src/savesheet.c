@@ -49,6 +49,11 @@ Sheet * makeDefaultSheet(){
 	newsheet->weaponsbox = weaponsbox;
 	newsheet->statusbox = statusbox;
 
+	//Make the equipment box
+	EquipmentBox* equipmentbox = malloc(sizeof(EquipmentBox));
+	equipmentbox->NumEquipment = 0;
+	newsheet->equipmentbox = equipmentbox;
+
 	return newsheet;
 };
 
@@ -176,6 +181,12 @@ Sheet* openSheet(char* filename) {
 	}
 
 	weaponsbox->selected=0;
+
+	// Make the equipment box
+	
+	EquipmentBox* equipmentbox = malloc(sizeof(EquipmentBox));
+	equipmentbox->NumEquipment = 0;
+	newsheet->equipmentbox = equipmentbox;
 
 
 	newsheet->attributesbox = attributesbox;

@@ -1,6 +1,7 @@
 #include "selectionstate.h"
 #include "savesheet.h"
 
+
 WINDOW * hintwindow;
 int x;
 int y;
@@ -23,25 +24,25 @@ void evalHint(SelectionState* s) {
 
 		case ATTRIBUTES:
 			mvwaddstr(hintwindow,1,0,
-					"s: save  r: roll saving throw "
+					"s: save  e: equipment  r: roll saving throw "
 				 );
 			break;
 
 		case WEAPONS:
 			mvwaddstr(hintwindow,1,0,
-					"s: save  r: roll weapon  a: roll with advantage  d: roll with disadvantage  c: roll crit"
+					"s: save  e: equipment  r: roll weapon  a: roll with advantage  d: roll with disadvantage  c: roll crit"
 				 );
 			break;
 
 		case CHARACTER:
 			mvwaddstr(hintwindow,1,0,
-					"s: save  e: add Exp  g-a: add Gold  g-r: remove Gold"
+					"s: save  e: equipment  x: add Exp  g-a: add Gold  g-r: remove Gold"
 				 );
 			break;
 
 		case STATUS:
 			mvwaddstr(hintwindow,1,0,
-					"s: save  r: long rest   h-a: heal amount  h-d: short rest heal"
+					"s: save  e: equipment  r: long rest   h-a: heal amount  h-d: short rest heal"
 				 );
 			mvwaddstr(hintwindow,2,0,
 					"b: add bonus HP  d: add damage  i: roll initiative"
@@ -50,7 +51,7 @@ void evalHint(SelectionState* s) {
 
 		case DICEBOX:
 			mvwaddstr(hintwindow,1,0,
-					"s: save  r: roll dice "
+					"s: save  e: equipment  r: roll dice "
 				 );
 			break;
 	}
@@ -67,6 +68,18 @@ void processInput(Sheet* sheet, SelectionState* state){
 	switch(ch) {
 		case 's':
 			saveSheetDiag(sheet);
+			break;
+
+		case 'e':
+			// Really bad hack to overwrite the hints before we open the equipment diag
+			werase(hintwindow);
+			
+			mvwaddstr(hintwindow,1,0,"ESC: exit  a: add item  e: edit item  d: delete item");
+			drawHorizontal(hintwindow,0,x-1,0);
+			wrefresh(hintwindow);
+
+
+			equipmentDiag(sheet);
 			break;
 
 	default: 
@@ -98,7 +111,7 @@ void processInput(Sheet* sheet, SelectionState* state){
 	evalHint(state);
 	drawHorizontal(hintwindow,0,x-1,0);
 	wrefresh(hintwindow);
-	mvprintw(40,40,"item: %d box: %d",state->SelectedItem, state->SelectedBox);
+	mvprintw(40,40,"item: %d box: %d input: %d",state->SelectedItem, state->SelectedBox, ch);
 
 
 }
@@ -129,7 +142,7 @@ void execInputATTRIBUTES(int ch, SelectionState* state, Sheet* sheet) {
 			}
 			break;
 
-		case '\n':
+		case ENTER:
 		case 'r':
 			rollAttributeDiag(state,sheet);
 			break;
@@ -161,7 +174,7 @@ void execInputWEAPONS(int ch, SelectionState* state, Sheet* sheet) {
 			state->SelectedBox = DICEBOX;
 			break;
 
-		case '\n':
+		case ENTER:
 		case 'r':
 			rollAttack(state, sheet, NORMAL);
 			break;
@@ -194,7 +207,7 @@ void execInputCHARACTER(int ch, SelectionState* state, Sheet* sheet) {
 			state->SelectedBox = ATTRIBUTES;
 			break;
 
-		case 'e':
+		case 'x':
 			addExpDiag(sheet);
 			break;
 
@@ -300,7 +313,7 @@ void execInputDICE(int ch, SelectionState* state, Sheet* sheet) {
 			break;
 
 		case KEY_ENTER:
-		case '\n':
+		case ENTER:
 		case 'r':
 			rollDieDiag(state,sheet);
 			break;

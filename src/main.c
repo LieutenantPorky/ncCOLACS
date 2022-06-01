@@ -26,6 +26,9 @@ int main(int argc, char * argv[]) {
 	//saveSheet(sheet, "test1.char");
 	if (DEBUG) {return 1;}
 
+	drawSheet(sheet);
+	wrefresh(stdscr);
+
 	while (true) {
 		processInput(sheet,state);
 	}
