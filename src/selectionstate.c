@@ -24,13 +24,13 @@ void evalHint(SelectionState* s) {
 
 		case ATTRIBUTES:
 			mvwaddstr(hintwindow,1,0,
-					"s: save  e: equipment  r: roll saving throw "
+					"s: save  e: equipment  r/ENTER: roll saving throw "
 				 );
 			break;
 
 		case WEAPONS:
 			mvwaddstr(hintwindow,1,0,
-					"s: save  e: equipment  r: roll weapon  a: roll with advantage  d: roll with disadvantage  c: roll crit"
+					"s: save  e: equipment  r/ENTER: roll weapon  a: roll with advantage  d: roll with disadvantage  c: roll crit"
 				 );
 			break;
 
@@ -51,7 +51,7 @@ void evalHint(SelectionState* s) {
 
 		case DICEBOX:
 			mvwaddstr(hintwindow,1,0,
-					"s: save  e: equipment  r: roll dice "
+					"s: save  e: equipment  r/ENTER: roll dice "
 				 );
 			break;
 	}
@@ -74,7 +74,7 @@ void processInput(Sheet* sheet, SelectionState* state){
 			// Really bad hack to overwrite the hints before we open the equipment diag
 			werase(hintwindow);
 			
-			mvwaddstr(hintwindow,1,0,"ESC: exit  a: add item  e: edit item  d: delete item");
+			mvwaddstr(hintwindow,1,0,"ESC: exit  a: add item  e: edit item  d: delete item  ENTER: view item");
 			drawHorizontal(hintwindow,0,x-1,0);
 			wrefresh(hintwindow);
 
