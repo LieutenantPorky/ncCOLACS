@@ -92,6 +92,17 @@ void saveSheet(Sheet* s, char* filename){
 		fprintf(f,"%s,%d,%d,%d\n",cw->name,cw->numdice,cw->die,cw->attr);
 	}
 
+	// Save Equipment
+	
+	EquipmentBox* e = s->equipmentbox;
+	Equipment* eq;
+	fprintf(f,"%d\n",e->NumEquipment);
+	for (int i=0;i<e->NumEquipment;i++) {
+		eq = & e->Equipment[i];
+		fprintf(f,"%s\n",eq->Name);
+		fprintf(f,"%s\n",eq->Description);
+	}
+
 	fclose(f);
 }
 
@@ -185,10 +196,19 @@ Sheet* openSheet(char* filename) {
 	// Make the equipment box
 	
 	EquipmentBox* equipmentbox = malloc(sizeof(EquipmentBox));
-	equipmentbox->NumEquipment = 0;
+	int numeq = 0;
+	fscanf(f,"%d\n",&numeq);
+	for (int i = 0; i<numeq; i++) {
+		Equipment* neweq = malloc(sizeof(Equipment));
+		addEquipment(equipmentbox,neweq);
+		char input[STR_SIZE];
+		fgets(input, STR_SIZE, f);
+		strcpy((& equipmentbox->Equipment[i])->Name,input);
+		fgets(input, STR_SIZE, f);
+		strcpy( (& equipmentbox->Equipment[i])->Description,input);
+	}
+	
 	newsheet->equipmentbox = equipmentbox;
-
-
 	newsheet->attributesbox = attributesbox;
 	newsheet->statusbox = st;
 	newsheet->characterbox = characterbox;
